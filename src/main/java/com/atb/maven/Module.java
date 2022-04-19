@@ -21,6 +21,7 @@ public class Module {
     public static void main(String[] args) throws Exception {
         //Runtime.getRuntime().exec();
         File file = new File("E:\\Project-4X-Server");
+        //File file = new File("E:\\wolf_server\\Server");
         List<String> names = new ArrayList<String>();
         File[] tempList = file.listFiles();
         for (File f : tempList) {

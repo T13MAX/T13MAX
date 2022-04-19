@@ -1,6 +1,8 @@
 package com.atb.date;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -11,8 +13,19 @@ import java.util.Date;
  */
 public class DateUtil {
     public static void main(String[] args) {
-        Date date = new Date(1640745681678L);
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = new Date(1649759456000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         System.out.println(sdf.format(date));
+
+        System.out.println(getEatTime());
+    }
+
+    private static long getEatTime() {
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.HOUR, 6);
+        instance.set(Calendar.MINUTE, 30);
+        instance.set(Calendar.SECOND, 0);
+        instance.set(Calendar.MILLISECOND, 0);
+        return instance.getTime().getTime();
     }
 }
