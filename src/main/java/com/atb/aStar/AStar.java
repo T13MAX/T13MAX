@@ -10,13 +10,9 @@ import java.util.Set;
  */
 public class AStar {
 
-    private static int[] X_S_4 = new int[]{0,-1,1,0};
+    private static int[][] S_4 = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
-    private static int[] Y_S_4 = new int[]{-1,0,0,1};
-
-    private static int[] X_S_6 = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
-
-    private static int[] Y_S_6 = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
+    private static int[][] S_6 = new int[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
 
     private static final int WIDTH = 10;
 
@@ -96,7 +92,8 @@ public class AStar {
     }
 
     private Node getBest() {
-        int dist = Integer.MAX_VALUE;
+
+        float dist = Float.MAX_VALUE;
 
         Node best = null;
 
@@ -104,6 +101,7 @@ public class AStar {
             float dist1 = getDist(node);
             if (dist1 < dist) {
                 best = node;
+                dist = dist1;
             }
         }
         return best;
@@ -111,32 +109,33 @@ public class AStar {
 
     private void extendRound(Node parent) {
 
-        for (int i = 0; i < X_S_4.length; i++) {
-            for (int j = 0; j < Y_S_4.length; j++) {
+        int[][] s = S_6;
 
-                int newX = X_S_4[i] + parent.getX();
-                int newY = Y_S_4[i] + parent.getY();
+        for (int i = 0; i < s.length; i++) {
 
-                if (!isValid(newX, newY)) continue;
+            int newX = s[i][0] + parent.getX();
+            int newY = s[i][1] + parent.getY();
 
-                if (inClose(newX, newY)) continue;
+            if (!isValid(newX, newY)) continue;
 
-                Node newNode = new Node(parent, newX, newY, getCost(parent.getX(), parent.getY(), newX, newY));
+            if (inClose(newX, newY)) continue;
 
-                Node oldNode = getNodeByOpen(newX, newY);
-                if (oldNode != null) {
+            Node newNode = new Node(parent, newX, newY, getCost(parent.getX(), parent.getY(), newX, newY));
 
-                    if (oldNode.getDist() > newNode.getDist()) {
-                        oldNode.setParent(parent);
-                        oldNode.setDist(newNode.getDist());
-                    }
+            Node oldNode = getNodeByOpen(newX, newY);
+            if (oldNode != null) {
 
-                    continue;
+                if (oldNode.getDist() > newNode.getDist()) {
+                    oldNode.setParent(parent);
+                    oldNode.setDist(newNode.getDist());
                 }
 
-                open.add(newNode);
+                continue;
             }
+
+            open.add(newNode);
         }
+
 
     }
 
